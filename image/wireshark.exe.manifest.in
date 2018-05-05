@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<!--This file was modified in March 2012 by Digital Operatives, LLC.
+ to add PAINT (Process Attribution in Network Traffic) compatibility.
+ All Wireshark licensing and GNU GPL terms remain unchanged.
+ Forward all questions to contact@digitaloperatives.com -->
+
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+  <assemblyIdentity
+    version="@VERSION_MAJOR@.@VERSION_MINOR@.@VERSION_MICRO@.0"
+    processorArchitecture="@PROCESSOR_ARCHITECTURE@"
+    name="WiresharkDevelopmentTeam.Wireshark"
+    type="win32"
+  />
+  <description>The world's most popular network protocol analyzer</description>
+  <trustInfo xmlns="urn:schemas-microsoft-com:asm.v2">
+    <security>
+      <requestedPrivileges>
+        <requestedExecutionLevel
+          level="requireAdministrator"
+          uiAccess="false"/>
+        </requestedPrivileges>
+       </security>
+  </trustInfo>
+  <dependency>
+    <dependentAssembly>
+      <assemblyIdentity
+        type="win32"
+        name="Microsoft.Windows.Common-Controls"
+        version="6.0.0.0"
+        processorArchitecture="@PROCESSOR_ARCHITECTURE@"
+        publicKeyToken="6595b64144ccf1df"
+        language="*"
+      />
+    </dependentAssembly>
+  </dependency>
+</assembly> 

@@ -1,0 +1,781 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Taps">
+      <UniqueIdentifier>{3c136fde-a097-4ec1-b764-d9944b60af9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="about_dlg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="airpcap_dlg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="airpcap_gui_utils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="capture_dlg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="capture_file_dlg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="capture_if_details_dlg_win32.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="capture_if_dlg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="capture_info_dlg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cfilter_combo_utils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="color_dlg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="color_edit_dlg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="color_utils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="conversations_table.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="decode_as_ber.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="decode_as_dcerpc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="decode_as_dlg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dfilter_expr_dlg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dlg_utils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="drag_and_drop.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="expert_comp_table.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="export_object.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="export_object_http.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="file_dlg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="file_dlg_win32.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fileset_dlg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="filter_dlg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="find_dlg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="firewall_dlg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="follow_ssl.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="follow_stream.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="follow_tcp.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="follow_udp.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="font_utils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="goto_dlg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="graph_analysis.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gtkvumeter.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gui_stat_util.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gui_utils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="help_dlg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hostlist_table.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="macros_dlg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main_airpcap_toolbar.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main_filter_toolbar.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main_proto_draw.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main_statusbar.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main_toolbar.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main_welcome.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mcast_stream.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="menus.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="packet_history.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="packet_win.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pixmap_save.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="plugins_dlg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="prefs_capture.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="prefs_column.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="prefs_dlg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="prefs_gui.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="prefs_layout.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="prefs_nameres.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="prefs_print.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="prefs_rtp_player.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="prefs_stream.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="print_dlg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="print_win32.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="profile_dlg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="progress_dlg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="proto_dlg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="proto_hier_stats_dlg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="range_utils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="recent.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rtp_player.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rtp_stream.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sctp_byte_graph_dlg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sctp_error_dlg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sctp_graph_dlg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sctp_stat.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="service_response_time_table.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="simple_dialog.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stock_icons.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="summary_dlg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="supported_protos_dlg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tap_dfilter_dlg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="text_page_utils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="u3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="uat_gui.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="voip_calls.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="webbrowser.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="wireshark-tap-register.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="afp_stat.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="ansi_a_stat.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="ansi_map_stat.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="bootp_stat.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="camel_counter.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="camel_srt.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="conversations_eth.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="conversations_fc.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="conversations_fddi.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="conversations_ip.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="conversations_ipx.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="conversations_jxta.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="conversations_ncp.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="conversations_rsvp.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="conversations_sctp.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="conversations_tcpip.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="conversations_tr.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="conversations_udpip.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="conversations_usb.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="conversations_wlan.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="dcerpc_stat.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="expert_comp_dlg.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="expert_dlg.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="fc_stat.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="flow_graph.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="funnel_stat.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="gsm_a_stat.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="gsm_map_stat.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="gsm_map_summary.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="h225_counter.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="h225_ras_srt.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="hostlist_eth.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="hostlist_fc.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="hostlist_fddi.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="hostlist_ip.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="hostlist_ipx.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="hostlist_jxta.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="hostlist_ncp.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="hostlist_rsvp.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="hostlist_sctp.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="hostlist_tcpip.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="hostlist_tr.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="hostlist_udpip.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="hostlist_usb.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="hostlist_wlan.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="io_stat.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="ldap_stat.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="mcast_stream_dlg.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="mgcp_stat.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="mtp3_stat.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="mtp3_summary.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="ncp_stat.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="radius_stat.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="rpc_progs.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="rpc_stat.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="rtp_analysis.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="rtp_stream_dlg.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="scsi_stat.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="sctp_assoc_analyse.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="sctp_chunk_stat.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="sctp_chunk_stat_dlg.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="sctp_stat_dlg.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="sip_stat.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="smb2_stat.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="smb_stat.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="stats_tree_stat.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="t38_analysis.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="tcp_graph.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="voip_calls_dlg.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="wlan_stat_dlg.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+    <ClCompile Include="wsp_stat.c">
+      <Filter>Source Files\Taps</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="about_dlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="airpcap_dlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="airpcap_gui_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="capture_dlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="capture_file_dlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="capture_if_details_dlg_win32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cfilter_combo_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="color_dlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="color_edit_dlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="color_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="conversations_table.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="decode_as_ber.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="decode_as_dcerpc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="decode_as_dlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dfilter_expr_dlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dlg_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="drag_and_drop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="expert_comp_dlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="expert_comp_table.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="export_object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="file_dlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="file_dlg_win32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fileset_dlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="filter_dlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="find_dlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="firewall_dlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="follow_ssl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="follow_stream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="follow_tcp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="follow_udp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="font_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="goto_dlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="graph_analysis.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gsm_map_stat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gtkglobals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gtkvumeter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gui_stat_menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gui_stat_util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gui_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="help_dlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hostlist_table.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="keys.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="macros_dlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="main_airpcap_toolbar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="main_filter_toolbar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="main_proto_draw.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="main_statusbar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="main_toolbar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="main_welcome.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mcast_stream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mcast_stream_dlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="menus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mtp3_stat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="packet_history.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="packet_win.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pixmap_save.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="plugins_dlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="prefs_capture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="prefs_column.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="prefs_dlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="prefs_gui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="prefs_layout.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="prefs_nameres.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="prefs_print.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="prefs_rtp_player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="prefs_stream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="print_win32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="profile_dlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="proto_dlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="proto_hier_stats_dlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="range_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="recent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_analysis.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_stream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rtp_stream_dlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sctp_stat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="service_response_time_table.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stock_icons.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="summary_dlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="supported_protos_dlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tap_dfilter_dlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="text_page_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="u3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="uat_gui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="voip_calls.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="voip_calls_dlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="webbrowser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="doxygen.cfg.in" />
+    <None Include="Makefile.am" />
+    <None Include="Makefile.common" />
+    <None Include="Makefile.nmake" />
+    <None Include="STATUS.gtk2" />
+  </ItemGroup>
+</Project>

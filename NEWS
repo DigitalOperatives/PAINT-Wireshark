@@ -1,0 +1,183 @@
+Wireshark 1.6.5 Release Notes
+
+   ------------------------------------------------------------------
+
+What is Wireshark?
+
+   Wireshark is the world's most popular network protocol analyzer.
+   It is used for troubleshooting, analysis, development and
+   education.
+
+What's New
+
+  Bug Fixes
+
+   The following vulnerabilities have been fixed.
+
+     o wnpa-sec-2012-01
+
+       Laurent Butti discovered that Wireshark failed to properly
+       check record sizes for many packet capture file formats. (Bug
+       6663, bug 6666, bug 6667, bug 6668, bug 6669, bug 6670)
+
+       Versions affected: 1.4.0 to 1.4.10, 1.6.0 to 1.6.4.
+
+     o wnpa-sec-2012-02
+
+       Wireshark could dereference a NULL pointer and crash. (Bug
+       6634)
+
+       Versions affected: 1.4.0 to 1.4.10, 1.6.0 to 1.6.4.
+
+     o wnpa-sec-2012-03
+
+       The RLC dissector could overflow a buffer. (Bug 6391)
+
+       Versions affected: 1.4.0 to 1.4.10, 1.6.0 to 1.6.4.
+
+   The following bugs have been fixed:
+
+     o "Closing File!" Dialog Hangs. (Bug 3046)
+
+     o Sub-fields of data field should appear in exported PDML as
+       children of the data field instead of as siblings to it. (Bug
+       3809)
+
+     o Incorrect time differences displayed with time reference set.
+       (Bug 5580)
+
+     o Wrong packet type association of SNMP trap after TFTP
+       transfer. (Bug 5727)
+
+     o SSL/TLS decryption needs wireshark to be rebooted. (Bug 6032)
+
+     o Export HTTP Objects -> save all crashes Wireshark. (Bug 6250)
+
+     o Wireshark Netflow dissector complains there is no template
+       found though the template is exported. (Bug 6325)
+
+     o DCERPC EPM tower UUID must be interpreted always as little
+       endian. (Bug 6368)
+
+     o Crash if no recent files. (Bug 6549)
+
+     o IPv6 frame containing routing header with 0 segments left
+       calculates wrong UDP checksum. (Bug 6560)
+
+     o IPv4 UDP/TCP Checksum incorrect if routing header present.
+       (Bug 6561)
+
+     o Incorrect Parsing of SCPS Capabilities Option introduced in
+       response to bug 6194. (Bug 6562)
+
+     o Various crashes after loading NetMon2.x capture file. (Bug
+       6578)
+
+     o Fixed compilation of dumpcap on some systems (when
+       MUST_DO_SELECT is defined). (Bug 6614)
+
+     o SIGSEGV in SVN 40046. (Bug 6634)
+
+     o Wireshark dissects TCP option 25 as an "April 1" option. (Bug
+       6643)
+
+     o ZigBee ZCL Dissector reports invalid status. (Bug 6649)
+
+     o ICMPv6 DNSSL option malformed on padding. (Bug 6660)
+
+     o Wrong tvb_get_bits function call in packet-csn1.c. (Bug 6708)
+
+     o [UDP] - Length Field of Pseudo Header while computing CheckSum
+       is not correct. (Bug 6711)
+
+     o pcapio.c: bug in libpcap_write_interface_description_block.
+       (Bug 6719)
+
+     o Memory leaks in various dissectors.
+
+     o Bytes highlighted in wrong Byte pane when field selected in
+       Details pane.
+
+  New and Updated Features
+
+   There are no new features in this release.
+
+  New Protocol Support
+
+   There are no new protocols in this release.
+
+  Updated Protocol Support
+
+   BGP, BMC CSN1, DCERPC EPM, DCP(ETSI) DMP DTLS GSM Management, H245
+   HPTEAM, ICMPv6, IEEE 802.15.4 IPSEC IPv4, IPv6, ISAKMP KERBEROS
+   LDSS NFS RLC, RPC-NETLOGON RRC RTMPT SIGCOMP SSL SYSLOG TCP, UDP,
+   XML ZigBee ZCL
+
+  New and Updated Capture File Support
+
+   Accellent 5Views, AIX iptrace, HP-UX nettl, I4B, Microsoft Network
+   Monitor, Novell LANalyzer, PacketLogger, Pcap-ng, Sniffer,
+   Tektronix K12, WildPackets {Airo,Ether}Peek.
+
+Getting Wireshark
+
+   Wireshark source code and installation packages are available from
+   http://www.wireshark.org/download.html.
+
+  Vendor-supplied Packages
+
+   Most Linux and Unix vendors supply their own Wireshark packages.
+   You can usually install or upgrade Wireshark using the package
+   management system specific to that platform. A list of third-party
+   packages can be found on the download page on the Wireshark web
+   site.
+
+File Locations
+
+   Wireshark and TShark look in several different locations for
+   preference files, plugins, SNMP MIBS, and RADIUS dictionaries.
+   These locations vary from platform to platform. You can use
+   About→Folders to find the default locations on your system.
+
+Known Problems
+
+   Wireshark might make your system disassociate from a wireless
+   network on OS X 10.4. (Bug 1315)
+
+   Dumpcap might not quit if Wireshark or TShark crashes. (Bug 1419)
+
+   The BER dissector might infinitely loop. (Bug 1516)
+
+   Capture filters aren't applied when capturing from named pipes.
+   (Bug 1814)
+
+   Filtering tshark captures with display filters (-R) no longer
+   works. (Bug 2234)
+
+   The 64-bit Windows installer does not ship with libsmi. (Win64
+   development page)
+
+   Application crash when changing real-time option. (Bug 4035)
+
+   Hex pane display issue after startup. (Bug 4056)
+
+   Packet list rows are oversized. (Bug 4357)
+
+   Summary pane selected frame highlighting not maintained. (Bug
+   4445)
+
+   Wireshark and TShark will display incorrect delta times in some
+   cases. (Bug 4985 and bug 5580)
+
+Getting Help
+
+   Community support is available on Wireshark's Q&A site and on the
+   wireshark-users mailing list. Subscription information and
+   archives for all of Wireshark's mailing lists can be found on the
+   web site.
+
+   Training is available from Wireshark University.
+
+Frequently Asked Questions
+
+   A complete FAQ is available on the Wireshark web site.

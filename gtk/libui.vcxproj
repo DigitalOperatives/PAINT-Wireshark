@@ -1,0 +1,325 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{57231C4A-CF70-4CC6-8AED-4C1D6ABC3E94}</ProjectGuid>
+    <Keyword>MakeFileProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <NMakeBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <NMakeReBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <NMakeCleanCommandLine Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <NMakeOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">libui.exe</NMakeOutput>
+    <NMakePreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;_DEBUG;HAVE_CONFIG_H;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeForcedIncludes Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(NMakeForcedIncludes)</NMakeForcedIncludes>
+    <NMakeAssemblySearchPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(NMakeAssemblySearchPath)</NMakeAssemblySearchPath>
+    <NMakeForcedUsingAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(NMakeForcedUsingAssemblies)</NMakeForcedUsingAssemblies>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <NMakeBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <NMakeReBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <NMakeCleanCommandLine Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <NMakeOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">libui.exe</NMakeOutput>
+    <NMakePreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;HAVE_LIBPCAP;HAVE_LIBPORTAUDIO;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeForcedIncludes Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(NMakeForcedIncludes)</NMakeForcedIncludes>
+    <NMakeAssemblySearchPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(NMakeAssemblySearchPath)</NMakeAssemblySearchPath>
+    <NMakeForcedUsingAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(NMakeForcedUsingAssemblies)</NMakeForcedUsingAssemblies>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="about_dlg.c" />
+    <ClCompile Include="airpcap_dlg.c" />
+    <ClCompile Include="airpcap_gui_utils.c" />
+    <ClCompile Include="capture_dlg.c" />
+    <ClCompile Include="capture_file_dlg.c" />
+    <ClCompile Include="capture_if_details_dlg_win32.c" />
+    <ClCompile Include="capture_if_dlg.c" />
+    <ClCompile Include="capture_info_dlg.c" />
+    <ClCompile Include="cfilter_combo_utils.c" />
+    <ClCompile Include="color_dlg.c" />
+    <ClCompile Include="color_edit_dlg.c" />
+    <ClCompile Include="color_utils.c" />
+    <ClCompile Include="conversations_table.c" />
+    <ClCompile Include="decode_as_ber.c" />
+    <ClCompile Include="decode_as_dcerpc.c" />
+    <ClCompile Include="decode_as_dlg.c" />
+    <ClCompile Include="dfilter_expr_dlg.c" />
+    <ClCompile Include="dlg_utils.c" />
+    <ClCompile Include="drag_and_drop.c" />
+    <ClCompile Include="expert_comp_table.c" />
+    <ClCompile Include="export_object.c" />
+    <ClCompile Include="export_object_http.c" />
+    <ClCompile Include="file_dlg.c" />
+    <ClCompile Include="file_dlg_win32.c" />
+    <ClCompile Include="fileset_dlg.c" />
+    <ClCompile Include="filter_dlg.c" />
+    <ClCompile Include="find_dlg.c" />
+    <ClCompile Include="firewall_dlg.c" />
+    <ClCompile Include="follow_ssl.c" />
+    <ClCompile Include="follow_stream.c" />
+    <ClCompile Include="follow_tcp.c" />
+    <ClCompile Include="follow_udp.c" />
+    <ClCompile Include="font_utils.c" />
+    <ClCompile Include="goto_dlg.c" />
+    <ClCompile Include="graph_analysis.c" />
+    <ClCompile Include="gtkvumeter.c" />
+    <ClCompile Include="gui_stat_util.c" />
+    <ClCompile Include="gui_utils.c" />
+    <ClCompile Include="help_dlg.c" />
+    <ClCompile Include="hostlist_table.c" />
+    <ClCompile Include="macros_dlg.c" />
+    <ClCompile Include="main.c" />
+    <ClCompile Include="main_airpcap_toolbar.c" />
+    <ClCompile Include="main_filter_toolbar.c" />
+    <ClCompile Include="main_proto_draw.c" />
+    <ClCompile Include="main_statusbar.c" />
+    <ClCompile Include="main_toolbar.c" />
+    <ClCompile Include="main_welcome.c" />
+    <ClCompile Include="mcast_stream.c" />
+    <ClCompile Include="menus.c" />
+    <ClCompile Include="packet_history.c" />
+    <ClCompile Include="packet_win.c" />
+    <ClCompile Include="pixmap_save.c" />
+    <ClCompile Include="plugins_dlg.c" />
+    <ClCompile Include="prefs_capture.c" />
+    <ClCompile Include="prefs_column.c" />
+    <ClCompile Include="prefs_dlg.c" />
+    <ClCompile Include="prefs_gui.c" />
+    <ClCompile Include="prefs_layout.c" />
+    <ClCompile Include="prefs_nameres.c" />
+    <ClCompile Include="prefs_print.c" />
+    <ClCompile Include="prefs_rtp_player.c" />
+    <ClCompile Include="prefs_stream.c" />
+    <ClCompile Include="print_dlg.c" />
+    <ClCompile Include="print_win32.c" />
+    <ClCompile Include="profile_dlg.c" />
+    <ClCompile Include="progress_dlg.c" />
+    <ClCompile Include="proto_dlg.c" />
+    <ClCompile Include="proto_hier_stats_dlg.c" />
+    <ClCompile Include="range_utils.c" />
+    <ClCompile Include="recent.c" />
+    <ClCompile Include="rtp_player.c" />
+    <ClCompile Include="rtp_stream.c" />
+    <ClCompile Include="sctp_byte_graph_dlg.c" />
+    <ClCompile Include="sctp_error_dlg.c" />
+    <ClCompile Include="sctp_graph_dlg.c" />
+    <ClCompile Include="sctp_stat.c" />
+    <ClCompile Include="service_response_time_table.c" />
+    <ClCompile Include="simple_dialog.c" />
+    <ClCompile Include="stock_icons.c" />
+    <ClCompile Include="summary_dlg.c" />
+    <ClCompile Include="supported_protos_dlg.c" />
+    <ClCompile Include="tap_dfilter_dlg.c" />
+    <ClCompile Include="text_page_utils.c" />
+    <ClCompile Include="u3.c" />
+    <ClCompile Include="uat_gui.c" />
+    <ClCompile Include="voip_calls.c" />
+    <ClCompile Include="webbrowser.c" />
+    <ClCompile Include="wireshark-tap-register.c" />
+    <ClCompile Include="afp_stat.c" />
+    <ClCompile Include="ansi_a_stat.c" />
+    <ClCompile Include="ansi_map_stat.c" />
+    <ClCompile Include="bootp_stat.c" />
+    <ClCompile Include="camel_counter.c" />
+    <ClCompile Include="camel_srt.c" />
+    <ClCompile Include="conversations_eth.c" />
+    <ClCompile Include="conversations_fc.c" />
+    <ClCompile Include="conversations_fddi.c" />
+    <ClCompile Include="conversations_ip.c" />
+    <ClCompile Include="conversations_ipx.c" />
+    <ClCompile Include="conversations_jxta.c" />
+    <ClCompile Include="conversations_ncp.c" />
+    <ClCompile Include="conversations_rsvp.c" />
+    <ClCompile Include="conversations_sctp.c" />
+    <ClCompile Include="conversations_tcpip.c" />
+    <ClCompile Include="conversations_tr.c" />
+    <ClCompile Include="conversations_udpip.c" />
+    <ClCompile Include="conversations_usb.c" />
+    <ClCompile Include="conversations_wlan.c" />
+    <ClCompile Include="dcerpc_stat.c" />
+    <ClCompile Include="expert_comp_dlg.c" />
+    <ClCompile Include="expert_dlg.c" />
+    <ClCompile Include="fc_stat.c" />
+    <ClCompile Include="flow_graph.c" />
+    <ClCompile Include="funnel_stat.c" />
+    <ClCompile Include="gsm_a_stat.c" />
+    <ClCompile Include="gsm_map_stat.c" />
+    <ClCompile Include="gsm_map_summary.c" />
+    <ClCompile Include="h225_counter.c" />
+    <ClCompile Include="h225_ras_srt.c" />
+    <ClCompile Include="hostlist_eth.c" />
+    <ClCompile Include="hostlist_fc.c" />
+    <ClCompile Include="hostlist_fddi.c" />
+    <ClCompile Include="hostlist_ip.c" />
+    <ClCompile Include="hostlist_ipx.c" />
+    <ClCompile Include="hostlist_jxta.c" />
+    <ClCompile Include="hostlist_ncp.c" />
+    <ClCompile Include="hostlist_rsvp.c" />
+    <ClCompile Include="hostlist_sctp.c" />
+    <ClCompile Include="hostlist_tcpip.c" />
+    <ClCompile Include="hostlist_tr.c" />
+    <ClCompile Include="hostlist_udpip.c" />
+    <ClCompile Include="hostlist_usb.c" />
+    <ClCompile Include="hostlist_wlan.c" />
+    <ClCompile Include="io_stat.c" />
+    <ClCompile Include="ldap_stat.c" />
+    <ClCompile Include="mcast_stream_dlg.c" />
+    <ClCompile Include="mgcp_stat.c" />
+    <ClCompile Include="mtp3_stat.c" />
+    <ClCompile Include="mtp3_summary.c" />
+    <ClCompile Include="ncp_stat.c" />
+    <ClCompile Include="radius_stat.c" />
+    <ClCompile Include="rpc_progs.c" />
+    <ClCompile Include="rpc_stat.c" />
+    <ClCompile Include="rtp_analysis.c" />
+    <ClCompile Include="rtp_stream_dlg.c" />
+    <ClCompile Include="scsi_stat.c" />
+    <ClCompile Include="sctp_assoc_analyse.c" />
+    <ClCompile Include="sctp_chunk_stat.c" />
+    <ClCompile Include="sctp_chunk_stat_dlg.c" />
+    <ClCompile Include="sctp_stat_dlg.c" />
+    <ClCompile Include="sip_stat.c" />
+    <ClCompile Include="smb2_stat.c" />
+    <ClCompile Include="smb_stat.c" />
+    <ClCompile Include="stats_tree_stat.c" />
+    <ClCompile Include="t38_analysis.c" />
+    <ClCompile Include="tcp_graph.c" />
+    <ClCompile Include="voip_calls_dlg.c" />
+    <ClCompile Include="wlan_stat_dlg.c" />
+    <ClCompile Include="wsp_stat.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="about_dlg.h" />
+    <ClInclude Include="airpcap_dlg.h" />
+    <ClInclude Include="airpcap_gui_utils.h" />
+    <ClInclude Include="capture_dlg.h" />
+    <ClInclude Include="capture_file_dlg.h" />
+    <ClInclude Include="capture_if_details_dlg_win32.h" />
+    <ClInclude Include="cfilter_combo_utils.h" />
+    <ClInclude Include="color_dlg.h" />
+    <ClInclude Include="color_edit_dlg.h" />
+    <ClInclude Include="color_utils.h" />
+    <ClInclude Include="conversations_table.h" />
+    <ClInclude Include="decode_as_ber.h" />
+    <ClInclude Include="decode_as_dcerpc.h" />
+    <ClInclude Include="decode_as_dlg.h" />
+    <ClInclude Include="dfilter_expr_dlg.h" />
+    <ClInclude Include="dlg_utils.h" />
+    <ClInclude Include="drag_and_drop.h" />
+    <ClInclude Include="expert_comp_dlg.h" />
+    <ClInclude Include="expert_comp_table.h" />
+    <ClInclude Include="export_object.h" />
+    <ClInclude Include="file_dlg.h" />
+    <ClInclude Include="file_dlg_win32.h" />
+    <ClInclude Include="fileset_dlg.h" />
+    <ClInclude Include="filter_dlg.h" />
+    <ClInclude Include="find_dlg.h" />
+    <ClInclude Include="firewall_dlg.h" />
+    <ClInclude Include="follow_ssl.h" />
+    <ClInclude Include="follow_stream.h" />
+    <ClInclude Include="follow_tcp.h" />
+    <ClInclude Include="follow_udp.h" />
+    <ClInclude Include="font_utils.h" />
+    <ClInclude Include="goto_dlg.h" />
+    <ClInclude Include="graph_analysis.h" />
+    <ClInclude Include="gsm_map_stat.h" />
+    <ClInclude Include="gtkglobals.h" />
+    <ClInclude Include="gtkvumeter.h" />
+    <ClInclude Include="gui_stat_menu.h" />
+    <ClInclude Include="gui_stat_util.h" />
+    <ClInclude Include="gui_utils.h" />
+    <ClInclude Include="help_dlg.h" />
+    <ClInclude Include="hostlist_table.h" />
+    <ClInclude Include="keys.h" />
+    <ClInclude Include="macros_dlg.h" />
+    <ClInclude Include="main.h" />
+    <ClInclude Include="main_airpcap_toolbar.h" />
+    <ClInclude Include="main_filter_toolbar.h" />
+    <ClInclude Include="main_proto_draw.h" />
+    <ClInclude Include="main_statusbar.h" />
+    <ClInclude Include="main_toolbar.h" />
+    <ClInclude Include="main_welcome.h" />
+    <ClInclude Include="mcast_stream.h" />
+    <ClInclude Include="mcast_stream_dlg.h" />
+    <ClInclude Include="menus.h" />
+    <ClInclude Include="mtp3_stat.h" />
+    <ClInclude Include="packet_history.h" />
+    <ClInclude Include="packet_win.h" />
+    <ClInclude Include="pixmap_save.h" />
+    <ClInclude Include="plugins_dlg.h" />
+    <ClInclude Include="prefs_capture.h" />
+    <ClInclude Include="prefs_column.h" />
+    <ClInclude Include="prefs_dlg.h" />
+    <ClInclude Include="prefs_gui.h" />
+    <ClInclude Include="prefs_layout.h" />
+    <ClInclude Include="prefs_nameres.h" />
+    <ClInclude Include="prefs_print.h" />
+    <ClInclude Include="prefs_rtp_player.h" />
+    <ClInclude Include="prefs_stream.h" />
+    <ClInclude Include="print_win32.h" />
+    <ClInclude Include="profile_dlg.h" />
+    <ClInclude Include="proto_dlg.h" />
+    <ClInclude Include="proto_hier_stats_dlg.h" />
+    <ClInclude Include="range_utils.h" />
+    <ClInclude Include="recent.h" />
+    <ClInclude Include="rtp_analysis.h" />
+    <ClInclude Include="rtp_player.h" />
+    <ClInclude Include="rtp_stream.h" />
+    <ClInclude Include="rtp_stream_dlg.h" />
+    <ClInclude Include="sat.h" />
+    <ClInclude Include="sctp_stat.h" />
+    <ClInclude Include="service_response_time_table.h" />
+    <ClInclude Include="stock_icons.h" />
+    <ClInclude Include="summary_dlg.h" />
+    <ClInclude Include="supported_protos_dlg.h" />
+    <ClInclude Include="tap_dfilter_dlg.h" />
+    <ClInclude Include="text_page_utils.h" />
+    <ClInclude Include="u3.h" />
+    <ClInclude Include="uat_gui.h" />
+    <ClInclude Include="voip_calls.h" />
+    <ClInclude Include="voip_calls_dlg.h" />
+    <ClInclude Include="webbrowser.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="doxygen.cfg.in" />
+    <None Include="Makefile.am" />
+    <None Include="Makefile.common" />
+    <None Include="Makefile.nmake" />
+    <None Include="STATUS.gtk2" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

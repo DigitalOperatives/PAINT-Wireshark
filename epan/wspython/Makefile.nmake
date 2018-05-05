@@ -1,0 +1,31 @@
+#
+# $Id: Makefile.nmake 35747 2011-02-02 01:19:53Z wmeier $
+#
+
+include ..\..\config.nmake
+include Makefile.common
+
+############### no need to modify below this line #########
+
+CFLAGS=$(WARNINGS_ARE_ERRORS) $(STANDARD_CFLAGS) \
+	/I. /I.. /I../.. $(GLIB_CFLAGS) \
+	$(PYTHON_CFLAGS)
+
+.c.obj::
+   $(CC) $(CVARSDLL) $(CFLAGS) -Fd.\ -c $<
+
+LIBWSPYTHON_OBJECTS = $(LIBWSPYTHON_SRC:.c=.obj)
+
+wspython.lib: $(LIBWSPYTHON_OBJECTS)
+	link /lib /out:wspython.lib $(LIBWSPYTHON_OBJECTS)
+
+clean:
+	rm -f $(LIBWSPYTHON_OBJECTS) wspython.lib *.pdb
+
+distclean: clean
+
+maintainer-clean: distclean
+
+checkapi:
+	$(PERL) ../../tools/checkAPIs.pl -g termoutput \
+	$(LIBWSPYTHON_OBJECTS)

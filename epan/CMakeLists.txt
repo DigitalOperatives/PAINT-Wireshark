@@ -1,0 +1,1361 @@
+# CMakeLists.txt
+#
+# $Id: CMakeLists.txt 39543 2011-10-24 22:34:56Z gerald $
+#
+# Wireshark - Network traffic analyzer
+# By Gerald Combs <gerald@wireshark.org>
+# Copyright 1998 Gerald Combs
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+#
+
+if (HAVE_LIBLUA)
+	include( wslua/CMakeLists.txt )
+endif()
+if (HAVE_LIBPYTHON)
+	include( wspython/CMakeLists.txt )
+endif()
+
+add_subdirectory( dissectors/dcerpc )
+
+include_directories(
+	${CMAKE_CURRENT_BINARY_DIR}
+	${CMAKE_CURRENT_SOURCE_DIR}/dfilter
+	${CMAKE_CURRENT_SOURCE_DIR}/dissectors
+	${CMAKE_CURRENT_SOURCE_DIR}/ftypes
+	${CMAKE_CURRENT_SOURCE_DIR}/wslua
+	${CMAKE_CURRENT_SOURCE_DIR}/wspython
+)
+
+set(CRC_FILES
+	crc/crc-16-plain.c
+)
+
+set(CRYPT_FILES
+	crypt/airpdcap.c
+	crypt/airpdcap_ccmp.c
+	crypt/airpdcap_debug.c
+	crypt/airpdcap_rijndael.c
+	crypt/airpdcap_tkip.c
+	crypt/airpdcap_wep.c
+	crypt/crypt-aes.c
+	crypt/crypt-des.c
+	crypt/crypt-md4.c
+	crypt/crypt-md5.c
+	crypt/crypt-rc4.c
+	crypt/crypt-sha1.c
+)
+
+set(DFILTER_FILES
+	dfilter/dfilter.c
+	dfilter/dfilter-macro.c
+	dfilter/dfunctions.c
+	dfilter/dfvm.c
+	dfilter/drange.c
+	dfilter/gencode.c
+	dfilter/semcheck.c
+	dfilter/sttype-function.c
+	dfilter/sttype-integer.c
+	dfilter/sttype-pointer.c
+	dfilter/sttype-range.c
+	dfilter/sttype-string.c
+	dfilter/sttype-test.c
+	dfilter/syntax-tree.c
+)
+
+set(DFILTER_CLEAN_FILES
+	${DFILTER_FILES}
+)
+
+add_lex_files(DFILTER_FILES
+	dfilter/scanner.l
+)
+
+add_lemon_files(DFILTER_FILES
+	dfilter/grammar.lemon
+)
+
+if (AUTOGEN_pidl)
+    # TODO
+endif()
+
+if (AUTOGEN_dcerpc)
+  FOREACH(PROTOCOL_NAME ${PIDL_DISSECTOR_AUTOGEN_NAMES})
+    set(PIDL_DISSECTOR_AUTOGEN_SRC
+	${PIDL_DISSECTOR_AUTOGEN_SRC}
+	dissectors/dcerpc/${PROTOCOL_NAME}/packet-dcerpc-${PROTOCOL_NAME}.c
+    )
+  ENDFOREACH()
+
+  FOREACH(PROTOCOL_NAME ${PIDL_DISSECTOR_AUTOGEN_NAMES})
+    SET(CUR_PROTO_DIR ${CMAKE_CURRENT_SOURCE_DIR}/dissectors/dcerpc/${PROTOCOL_NAME})
+    SET(CUR_PROTO_C_FILE packet-dcerpc-${PROTOCOL_NAME}.c)
+    SET(CUR_PROTO_H_FILE packet-dcerpc-${PROTOCOL_NAME}.h)
+    ADD_CUSTOM_COMMAND(
+	OUTPUT
+	  ${CUR_PROTO_DIR}/${CUR_PROTO_C_FILE}
+	  ${CUR_PROTO_DIR}/${CUR_PROTO_H_FILE}
+	COMMAND
+	  idl2wrs ${PROTOCOL_NAME}
+	COMMAND
+	  ${CMAKE_COMMAND} -E copy_if_different ${CUR_PROTO_DIR}/${CUR_PROTO_C_FILE} ${CMAKE_CURRENT_SOURCE_DIR}/dissectors/${CUR_PROTO_C_FILE}
+	COMMAND
+	  ${CMAKE_COMMAND} -E copy_if_different ${CUR_PROTO_DIR}/${CUR_PROTO_H_FILE} ${CMAKE_CURRENT_SOURCE_DIR}/dissectors/${CUR_PROTO_H_FILE}
+	WORKING_DIRECTORY
+	  ${CUR_PROTO_DIR}
+	DEPENDS
+	  ${CUR_PROTO_DIR}/${PROTOCOL_NAME}.idl
+	  ${CUR_PROTO_DIR}/${PROTOCOL_NAME}.cnf
+	  ${CUR_PROTO_DIR}/packet-dcerpc-${PROTOCOL_NAME}-template.c
+	  ${CUR_PROTO_DIR}/packet-dcerpc-${PROTOCOL_NAME}-template.h
+    )
+  ENDFOREACH()
+else()
+  FOREACH(PROTOCOL_NAME ${PIDL_DISSECTOR_AUTOGEN_NAMES})
+    set(PIDL_DISSECTOR_AUTOGEN_SRC
+	${PIDL_DISSECTOR_AUTOGEN_SRC}
+	dissectors/packet-dcerpc-${PROTOCOL_NAME}.c
+    )
+  ENDFOREACH()
+endif()
+
+ADD_CUSTOM_COMMAND(
+    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/packet-ncp2222.c
+    COMMAND ${PYTHON_EXECUTABLE}
+      ${CMAKE_SOURCE_DIR}/tools/ncp2222.py
+      -o ${CMAKE_CURRENT_BINARY_DIR}/packet-ncp2222.c
+    DEPENDS
+      dissectors/packet-ncp2222.inc
+      ${CMAKE_SOURCE_DIR}/tools/ncp2222.py
+)
+
+ADD_CUSTOM_COMMAND(
+    OUTPUT
+       x11-dissector
+#      x11-declarations.h
+#      x11-enum.h
+#      x11-extension-errors.h
+#      x11-extension-implementation.h
+#      x11-fields
+#      x11-glx-render-enum.h
+#      x11-register-info.h
+    COMMAND ${PERL_EXECUTABLE}
+      ${CMAKE_SOURCE_DIR}/tools/process-x11-fields.pl
+      <dissectors/x11-fields
+    COMMAND ${PERL_EXECUTABLE}
+      ${CMAKE_SOURCE_DIR}/tools/process-x11-xcb.pl
+    DEPENDS
+      dissectors/x11-fields
+      ${CMAKE_SOURCE_DIR}/tools/process-x11-fields.pl
+      ${CMAKE_SOURCE_DIR}/tools/process-x11-xcb.pl
+)
+
+# Note that some dissectors are added in dissectors/dcerpc/CMakeLists.txt
+set(PIDL_DISSECTOR_SRC
+#	dissectors/packet-dcerpc-budb.c
+#	dissectors/packet-dcerpc-butc.c
+#	dissectors/packet-dcerpc-drsuapi.c
+	dissectors/packet-dcerpc-atsvc.c
+	dissectors/packet-dcerpc-dfs.c
+	dissectors/packet-dcerpc-dssetup.c
+	dissectors/packet-dcerpc-efs.c
+	dissectors/packet-dcerpc-frstrans.c
+	dissectors/packet-dcerpc-initshutdown.c
+	dissectors/packet-dcerpc-nspi.c
+	dissectors/packet-dcerpc-rfr.c
+	dissectors/packet-dcerpc-srvsvc.c
+	dissectors/packet-dcerpc-wkssvc.c
+	dissectors/packet-dcerpc-wzcsvc.c
+)
+set(DIRTY_PIDL_DISSECTOR_SRC
+	dissectors/packet-dcerpc-dnsserver.c
+	dissectors/packet-dcerpc-eventlog.c
+	dissectors/packet-dcerpc-lsa.c
+	dissectors/packet-dcerpc-winreg.c
+)
+set(ASN1_DISSECTOR_SRC
+	dissectors/packet-acp133.c
+	dissectors/packet-acse.c
+	dissectors/packet-ansi_tcap.c
+	dissectors/packet-camel.c
+	dissectors/packet-cdt.c
+	dissectors/packet-charging_ase.c
+	dissectors/packet-cmip.c
+	dissectors/packet-cmp.c
+	dissectors/packet-cms.c
+	dissectors/packet-crmf.c
+	dissectors/packet-dap.c
+	dissectors/packet-disp.c
+	dissectors/packet-dop.c
+	dissectors/packet-dsp.c
+	dissectors/packet-ess.c
+	dissectors/packet-ftam.c
+	dissectors/packet-goose.c
+	dissectors/packet-h225.c
+	dissectors/packet-h235.c
+	dissectors/packet-h245.c
+	dissectors/packet-h248.c
+	dissectors/packet-h282.c
+	dissectors/packet-h283.c
+	dissectors/packet-h323.c
+	dissectors/packet-h450.c
+	dissectors/packet-h450-ros.c
+	dissectors/packet-h460.c
+	dissectors/packet-h501.c
+	dissectors/packet-idmp.c
+	dissectors/packet-logotypecertextn.c
+	dissectors/packet-mms.c
+	dissectors/packet-mpeg-audio.c
+	dissectors/packet-mpeg-pes.c
+	dissectors/packet-ns_cert_exts.c
+	dissectors/packet-ocsp.c
+	dissectors/packet-opsi.c
+	dissectors/packet-p7.c
+	dissectors/packet-p772.c
+	dissectors/packet-pkcs1.c
+	dissectors/packet-pkinit.c
+	dissectors/packet-pkix1explicit.c
+	dissectors/packet-pkix1implicit.c
+	dissectors/packet-pkixac.c
+	dissectors/packet-pkixproxy.c
+	dissectors/packet-pkixqualified.c
+	dissectors/packet-pkixtsp.c
+	dissectors/packet-q932.c
+	dissectors/packet-q932-ros.c
+	dissectors/packet-qsig.c
+	dissectors/packet-ranap.c
+	dissectors/packet-ros.c
+	dissectors/packet-rtse.c
+	dissectors/packet-rua.c
+	dissectors/packet-s1ap.c
+	dissectors/packet-sabp.c
+	dissectors/packet-smrse.c
+	dissectors/packet-spnego.c
+	dissectors/packet-sv.c
+	dissectors/packet-ulp.c
+	dissectors/packet-wlancertextn.c
+	dissectors/packet-x224.c
+	dissectors/packet-x2ap.c
+	dissectors/packet-x509af.c
+	dissectors/packet-x509ce.c
+	dissectors/packet-x509if.c
+	dissectors/packet-x509sat.c
+)
+
+set(DIRTY_ASN1_DISSECTOR_SRC
+	dissectors/packet-ansi_map.c
+	dissectors/packet-gnm.c
+	dissectors/packet-gsm_map.c
+	dissectors/packet-gprscdr.c
+	dissectors/packet-HI2Operations.c
+	dissectors/packet-hnbap.c
+	dissectors/packet-inap.c
+	dissectors/packet-ldap.c
+	dissectors/packet-lte-rrc.c
+	dissectors/packet-nbap.c
+	dissectors/packet-p1.c
+	dissectors/packet-p22.c
+	dissectors/packet-pcap.c
+	dissectors/packet-pkcs12.c
+	dissectors/packet-pres.c
+	dissectors/packet-rnsap.c
+	dissectors/packet-rrc.c
+	dissectors/packet-rrlp.c
+	dissectors/packet-snmp.c
+	dissectors/packet-t125.c
+	dissectors/packet-tcap.c
+	dissectors/packet-tetra.c
+)
+
+set(DISSECTOR_SRC
+	dissectors/packet-2dparityfec.c
+	dissectors/packet-3com-njack.c
+	dissectors/packet-3com-xns.c
+	dissectors/packet-3g-a11.c
+	dissectors/packet-6lowpan.c
+	dissectors/packet-9p.c
+	dissectors/packet-aarp.c
+	dissectors/packet-acap.c
+	dissectors/packet-acn.c
+	dissectors/packet-actrace.c
+	dissectors/packet-adwin.c
+	dissectors/packet-adwin-config.c
+	dissectors/packet-afp.c
+	dissectors/packet-afs.c
+	dissectors/packet-agentx.c
+	dissectors/packet-aim.c
+	dissectors/packet-aim-adverts.c
+	dissectors/packet-aim-admin.c
+	dissectors/packet-aim-bos.c
+	dissectors/packet-aim-buddylist.c
+	dissectors/packet-aim-chat.c
+	dissectors/packet-aim-chatnav.c
+	dissectors/packet-aim-directory.c
+	dissectors/packet-aim-email.c
+	dissectors/packet-aim-generic.c
+	dissectors/packet-aim-icq.c
+	dissectors/packet-aim-invitation.c
+	dissectors/packet-aim-location.c
+	dissectors/packet-aim-messaging.c
+	dissectors/packet-aim-oft.c
+	dissectors/packet-aim-popup.c
+	dissectors/packet-aim-signon.c
+	dissectors/packet-aim-ssi.c
+	dissectors/packet-aim-sst.c
+	dissectors/packet-aim-stats.c
+	dissectors/packet-aim-translate.c
+	dissectors/packet-aim-userlookup.c
+	dissectors/packet-airopeek.c
+	dissectors/packet-ajp13.c
+	dissectors/packet-alcap.c
+	dissectors/packet-amqp.c
+	dissectors/packet-amr.c
+	dissectors/packet-ancp.c
+	dissectors/packet-ans.c
+	dissectors/packet-ansi_637.c
+	dissectors/packet-ansi_683.c
+	dissectors/packet-ansi_801.c
+	dissectors/packet-ansi_a.c
+	dissectors/packet-aodv.c
+	dissectors/packet-aoe.c
+	dissectors/packet-ap1394.c
+	dissectors/packet-app-pkix-cert.c
+	dissectors/packet-applemidi.c
+	dissectors/packet-arcnet.c
+	dissectors/packet-armagetronad.c
+	dissectors/packet-arp.c
+	dissectors/packet-artnet.c
+	dissectors/packet-aruba-adp.c
+	dissectors/packet-aruba-erm.c
+	dissectors/packet-aruba-papi.c
+	dissectors/packet-asap.c
+	dissectors/packet-ascend.c
+	dissectors/packet-asf.c
+	dissectors/packet-assa_r3.c
+	dissectors/packet-atalk.c
+	dissectors/packet-atm.c
+	dissectors/packet-atmtcp.c
+	dissectors/packet-auto_rp.c
+	dissectors/packet-ax4000.c
+	dissectors/packet-ayiya.c
+	dissectors/packet-bacapp.c
+	dissectors/packet-bacnet.c
+	dissectors/packet-banana.c
+	dissectors/packet-babel.c
+	dissectors/packet-bat.c
+	dissectors/packet-batadv.c
+	dissectors/packet-bctp.c
+	dissectors/packet-beep.c
+	dissectors/packet-ber.c
+	dissectors/packet-bfd.c
+	dissectors/packet-bgp.c
+	dissectors/packet-bittorrent.c
+	dissectors/packet-bjnp.c
+	dissectors/packet-bmc.c
+	dissectors/packet-bofl.c
+	dissectors/packet-bootp.c
+	dissectors/packet-bootparams.c
+	dissectors/packet-bpdu.c
+	dissectors/packet-brdwlk.c
+	dissectors/packet-bssap.c
+	dissectors/packet-bssgp.c
+	dissectors/packet-btamp.c
+	dissectors/packet-bthci_acl.c
+	dissectors/packet-bthci_cmd.c
+	dissectors/packet-bthci_evt.c
+	dissectors/packet-bthci_sco.c
+	dissectors/packet-btl2cap.c
+	dissectors/packet-btobex.c
+	dissectors/packet-btrfcomm.c
+	dissectors/packet-btsdp.c
+	dissectors/packet-bt-utp.c
+	dissectors/packet-bvlc.c
+	dissectors/packet-calcappprotocol.c
+	dissectors/packet-capwap.c
+	dissectors/packet-cast.c
+	dissectors/packet-catapult-dct2000.c
+	dissectors/packet-ccsds.c
+	dissectors/packet-cdp.c
+	dissectors/packet-cfm.c
+	dissectors/packet-cgmp.c
+	dissectors/packet-chdlc.c
+	dissectors/packet-cigi.c
+	dissectors/packet-cimd.c
+	dissectors/packet-cimetrics.c
+	dissectors/packet-cip.c
+	dissectors/packet-cisco-erspan.c
+	dissectors/packet-cisco-oui.c
+	dissectors/packet-cisco-sm.c
+	dissectors/packet-cisco-wids.c
+	dissectors/packet-classicstun.c
+	dissectors/packet-clearcase.c
+	dissectors/packet-clip.c
+	dissectors/packet-clnp.c
+	dissectors/packet-cmpp.c
+	dissectors/packet-coap.c
+	dissectors/packet-collectd.c
+	dissectors/packet-componentstatus.c
+	dissectors/packet-cops.c
+	dissectors/packet-cosine.c
+	dissectors/packet-cpfi.c
+	dissectors/packet-cpha.c
+	dissectors/packet-csm-encaps.c
+	dissectors/packet-ctdb.c
+	dissectors/packet-cups.c
+	dissectors/packet-daap.c
+	dissectors/packet-data.c
+	dissectors/packet-daytime.c
+	dissectors/packet-db-lsp.c
+	dissectors/packet-dcc.c
+	dissectors/packet-dccp.c
+	dissectors/packet-dcerpc-bossvr.c
+	dissectors/packet-dcerpc-browser.c
+	dissectors/packet-dcerpc-cds_clerkserver.c
+	dissectors/packet-dcerpc-cds_solicit.c
+	dissectors/packet-dcerpc-conv.c
+	dissectors/packet-dcerpc-cprpc_server.c
+	dissectors/packet-dcerpc-dce122.c
+	dissectors/packet-dcerpc-dtsprovider.c
+	dissectors/packet-dcerpc-dtsstime_req.c
+	dissectors/packet-dcerpc-epm.c
+	dissectors/packet-dcerpc-fileexp.c
+	dissectors/packet-dcerpc-fldb.c
+	dissectors/packet-dcerpc-frsapi.c
+	dissectors/packet-dcerpc-frsrpc.c
+	dissectors/packet-dcerpc-ftserver.c
+	dissectors/packet-dcerpc-icl_rpc.c
+	dissectors/packet-dcerpc-krb5rpc.c
+	dissectors/packet-dcerpc-llb.c
+	dissectors/packet-dcerpc-mapi.c
+	dissectors/packet-dcerpc-messenger.c
+	dissectors/packet-dcerpc-mgmt.c
+	dissectors/packet-dcerpc-ndr.c
+	dissectors/packet-dcerpc-netlogon.c
+	dissectors/packet-dcerpc-pnp.c
+	dissectors/packet-dcerpc-rdaclif.c
+	dissectors/packet-dcerpc-rep_proc.c
+	dissectors/packet-dcerpc-roverride.c
+	dissectors/packet-dcerpc-rpriv.c
+	dissectors/packet-dcerpc-rras.c
+	dissectors/packet-dcerpc-rs_acct.c
+	dissectors/packet-dcerpc-rs_attr.c
+	dissectors/packet-dcerpc-rs_attr_schema.c
+	dissectors/packet-dcerpc-rs_bind.c
+	dissectors/packet-dcerpc-rs_misc.c
+	dissectors/packet-dcerpc-rs_pgo.c
+	dissectors/packet-dcerpc-rs_plcy.c
+	dissectors/packet-dcerpc-rs_prop_acct.c
+	dissectors/packet-dcerpc-rs_prop_acl.c
+	dissectors/packet-dcerpc-rs_prop_attr.c
+	dissectors/packet-dcerpc-rs_prop_pgo.c
+	dissectors/packet-dcerpc-rs_prop_plcy.c
+	dissectors/packet-dcerpc-rs_pwd_mgmt.c
+	dissectors/packet-dcerpc-rs_repadm.c
+	dissectors/packet-dcerpc-rs_replist.c
+	dissectors/packet-dcerpc-rs_repmgr.c
+	dissectors/packet-dcerpc-rs_unix.c
+	dissectors/packet-dcerpc-rsec_login.c
+	dissectors/packet-dcerpc-samr.c
+	dissectors/packet-dcerpc-secidmap.c
+	dissectors/packet-dcerpc-spoolss.c
+	dissectors/packet-dcerpc-svcctl.c
+	dissectors/packet-dcerpc-tapi.c
+	dissectors/packet-dcerpc-tkn4int.c
+	dissectors/packet-dcerpc-trksvr.c
+	dissectors/packet-dcerpc-ubikdisk.c
+	dissectors/packet-dcerpc-ubikvote.c
+	dissectors/packet-dcerpc-update.c
+	dissectors/packet-dcerpc.c
+	dissectors/packet-dcm.c
+	dissectors/packet-dcom.c
+	dissectors/packet-dcom-dispatch.c
+	dissectors/packet-dcom-oxid.c
+	dissectors/packet-dcom-remact.c
+	dissectors/packet-dcom-remunkn.c
+	dissectors/packet-dcom-sysact.c
+	dissectors/packet-dcp-etsi.c
+	dissectors/packet-ddtp.c
+	dissectors/packet-dec-bpdu.c
+	dissectors/packet-dec-dnart.c
+	dissectors/packet-dect.c
+	dissectors/packet-dhcp-failover.c
+	dissectors/packet-dhcpv6.c
+	dissectors/packet-diameter.c
+	dissectors/packet-diameter_3gpp.c
+	dissectors/packet-dis.c
+	dissectors/packet-dis-enums.c
+	dissectors/packet-dis-fields.c
+	dissectors/packet-dis-pdus.c
+	dissectors/packet-diffserv-mpls-common.c
+	dissectors/packet-distcc.c
+	dissectors/packet-dlm3.c
+	dissectors/packet-dlsw.c
+	dissectors/packet-dmp.c
+	dissectors/packet-dnp.c
+	dissectors/packet-dns.c
+	dissectors/packet-dplay.c
+	dissectors/packet-dpnss.c
+	dissectors/packet-dpnss-link.c
+	dissectors/packet-drda.c
+	dissectors/packet-dsi.c
+	dissectors/packet-dtls.c
+	dissectors/packet-dtn.c
+	dissectors/packet-dtp.c
+	dissectors/packet-dtpt.c
+	dissectors/packet-dua.c
+	dissectors/packet-dvbci.c
+	dissectors/packet-dvmrp.c
+	dissectors/packet-e100.c
+	dissectors/packet-e164.c
+	dissectors/packet-e212.c
+	dissectors/packet-eap.c
+	dissectors/packet-eapol.c
+	dissectors/packet-echo.c
+	dissectors/packet-edonkey.c
+	dissectors/packet-erldp.c
+	dissectors/packet-egd.c
+	dissectors/packet-ehs.c
+	dissectors/packet-eigrp.c
+	dissectors/packet-enc.c
+	dissectors/packet-enip.c
+	dissectors/packet-enrp.c
+	dissectors/packet-enttec.c
+	dissectors/packet-epl.c
+	dissectors/packet-epl_v1.c
+	dissectors/packet-epmd.c
+	dissectors/packet-erf.c
+	dissectors/packet-esio.c
+	dissectors/packet-esis.c
+	dissectors/packet-etch.c
+	dissectors/packet-eth.c
+	dissectors/packet-etherip.c
+	dissectors/packet-ethertype.c
+	dissectors/packet-evrc.c
+	dissectors/packet-exec.c
+	dissectors/packet-extreme.c
+	dissectors/packet-fc.c
+	dissectors/packet-fcct.c
+	dissectors/packet-fcdns.c
+	dissectors/packet-fcels.c
+	dissectors/packet-fcfcs.c
+	dissectors/packet-fcfzs.c
+	dissectors/packet-fcgi.c
+	dissectors/packet-fcip.c
+	dissectors/packet-fclctl.c
+	dissectors/packet-fcoe.c
+	dissectors/packet-fcoib.c
+	dissectors/packet-fcp.c
+	dissectors/packet-fcsb3.c
+	dissectors/packet-fcsp.c
+	dissectors/packet-fcswils.c
+	dissectors/packet-fddi.c
+	dissectors/packet-fefd.c
+	dissectors/packet-ff.c
+	dissectors/packet-fip.c
+	dissectors/packet-fix.c
+	dissectors/packet-flip.c
+	dissectors/packet-fmp.c
+	dissectors/packet-fmp_notify.c
+	dissectors/packet-force10-oui.c
+	dissectors/packet-fp_hint.c
+	dissectors/packet-fr.c
+	dissectors/packet-fractalgeneratorprotocol.c
+	dissectors/packet-frame.c
+	dissectors/packet-ftp.c
+	dissectors/packet-fw1.c
+	dissectors/packet-g723.c
+	dissectors/packet-gdsdb.c
+	dissectors/packet-gift.c
+	dissectors/packet-giop.c
+	dissectors/packet-git.c
+	dissectors/packet-glbp.c
+	dissectors/packet-gmhdr.c
+	dissectors/packet-gmrp.c
+	dissectors/packet-gnutella.c
+	dissectors/packet-gopher.c
+	dissectors/packet-gpef.c
+	dissectors/packet-gprs-llc.c
+	dissectors/packet-gre.c
+	dissectors/packet-gsm_a_bssmap.c
+	dissectors/packet-gsm_a_common.c
+	dissectors/packet-gsm_a_dtap.c
+	dissectors/packet-gsm_a_gm.c
+	dissectors/packet-gsm_a_rp.c
+	dissectors/packet-gsm_a_rr.c
+	dissectors/packet-gsm_ipa.c
+	dissectors/packet-gsm_bsslap.c
+	dissectors/packet-gsm_bssmap_le.c
+	dissectors/packet-gsm_sms.c
+	dissectors/packet-gsm_sms_ud.c
+	dissectors/packet-gsm_um.c
+	dissectors/packet-gsmtap.c
+	dissectors/packet-gssapi.c
+	dissectors/packet-gtp.c
+	dissectors/packet-gtpv2.c
+	dissectors/packet-gvcp.c
+	dissectors/packet-gvrp.c
+	dissectors/packet-h1.c
+	dissectors/packet-h221_nonstd.c
+	dissectors/packet-h223.c
+	dissectors/packet-h248_annex_c.c
+	dissectors/packet-h248_annex_e.c
+	dissectors/packet-h248_3gpp.c
+	dissectors/packet-h248_7.c
+	dissectors/packet-h248_10.c
+	dissectors/packet-h248_q1950.c
+	dissectors/packet-h261.c
+	dissectors/packet-h263.c
+	dissectors/packet-h263p.c
+	dissectors/packet-h264.c
+	dissectors/packet-hci_h1.c
+	dissectors/packet-hci_h4.c
+	dissectors/packet-hclnfsd.c
+	dissectors/packet-hilscher.c
+	dissectors/packet-hip.c
+	dissectors/packet-homeplug.c
+	dissectors/packet-hp-erm.c
+	dissectors/packet-hpext.c
+	dissectors/packet-hpsw.c
+	dissectors/packet-hpteam.c
+	dissectors/packet-hsrp.c
+	dissectors/packet-http.c
+	dissectors/packet-hyperscsi.c
+	dissectors/packet-i2c.c
+	dissectors/packet-iana-oui.c
+	dissectors/packet-iapp.c
+	dissectors/packet-iax2.c
+	dissectors/packet-infiniband_sdp.c
+	dissectors/packet-icap.c
+	dissectors/packet-icep.c
+	dissectors/packet-icmp.c
+	dissectors/packet-icmpv6.c
+	dissectors/packet-icp.c
+	dissectors/packet-icq.c
+	dissectors/packet-idp.c
+	dissectors/packet-iec104.c
+	dissectors/packet-ieee1722.c
+	dissectors/packet-ieee80211.c
+	dissectors/packet-ieee802154.c
+	dissectors/packet-ieee8021ah.c
+	dissectors/packet-ieee8023.c
+	dissectors/packet-ieee802a.c
+	dissectors/packet-ifcp.c
+	dissectors/packet-igap.c
+	dissectors/packet-igmp.c
+	dissectors/packet-igrp.c
+	dissectors/packet-image-gif.c
+	dissectors/packet-image-jfif.c
+	dissectors/packet-image-png.c
+	dissectors/packet-imap.c
+	dissectors/packet-imf.c
+	dissectors/packet-infiniband.c
+	dissectors/packet-ipars.c
+	dissectors/packet-ip.c
+	dissectors/packet-ipdc.c
+	dissectors/packet-ipfc.c
+	dissectors/packet-ipmi.c
+	dissectors/packet-ipmi-session.c
+	dissectors/packet-ipnet.c
+	dissectors/packet-ipp.c
+	dissectors/packet-ipsec.c
+	dissectors/packet-ipsec-tcp.c
+	dissectors/packet-ipsec-udp.c
+	dissectors/packet-ipsi-ctl.c
+	dissectors/packet-ipv6.c
+	dissectors/packet-ipvs-syncd.c
+	dissectors/packet-ipx.c
+	dissectors/packet-ipxwan.c
+	dissectors/packet-irc.c
+	dissectors/packet-isakmp.c
+	dissectors/packet-iscsi.c
+	dissectors/packet-isdn.c
+	dissectors/packet-isis-clv.c
+	dissectors/packet-isis-hello.c
+	dissectors/packet-isis-lsp.c
+	dissectors/packet-isis-snp.c
+	dissectors/packet-isis.c
+	dissectors/packet-isl.c
+	dissectors/packet-ismacryp.c
+	dissectors/packet-ismp.c
+	dissectors/packet-isns.c
+	dissectors/packet-isup.c
+	dissectors/packet-itdm.c
+	dissectors/packet-iua.c
+	dissectors/packet-iuup.c
+	dissectors/packet-iwarp-ddp-rdmap.c
+	dissectors/packet-iwarp-mpa.c
+	dissectors/packet-jabber.c
+	dissectors/packet-jmirror.c
+	dissectors/packet-jpeg.c
+	dissectors/packet-json.c
+	dissectors/packet-juniper.c
+	dissectors/packet-jxta.c
+	dissectors/packet-k12.c
+	dissectors/packet-kadm5.c
+	dissectors/packet-kdp.c
+	dissectors/packet-kerberos.c
+	dissectors/packet-kerberos4.c
+	dissectors/packet-klm.c
+	dissectors/packet-kingfisher.c
+	dissectors/packet-kink.c
+	dissectors/packet-kismet.c
+	dissectors/packet-kpasswd.c
+	dissectors/packet-l2tp.c
+	dissectors/packet-lanforge.c
+	dissectors/packet-lapb.c
+	dissectors/packet-lapbether.c
+	dissectors/packet-lapd.c
+	dissectors/packet-lapdm.c
+	dissectors/packet-laplink.c
+	dissectors/packet-l1-events.c
+	dissectors/packet-ldp.c
+	dissectors/packet-ldss.c
+	dissectors/packet-lge_monitor.c
+	dissectors/packet-linx.c
+	dissectors/packet-lisp-data.c
+	dissectors/packet-lisp.c
+	dissectors/packet-llc.c
+	dissectors/packet-lldp.c
+	dissectors/packet-llt.c
+	dissectors/packet-lmi.c
+	dissectors/packet-lmp.c
+	dissectors/packet-loop.c
+	dissectors/packet-lpd.c
+	dissectors/packet-lsc.c
+	dissectors/packet-ltp.c
+	dissectors/packet-lwapp.c
+	dissectors/packet-lwres.c
+	dissectors/packet-m2pa.c
+	dissectors/packet-m2tp.c
+	dissectors/packet-m2ua.c
+	dissectors/packet-m3ua.c
+	dissectors/packet-mac-lte.c
+	dissectors/packet-mactelnet.c
+	dissectors/packet-maccontrol.c
+	dissectors/packet-manolito.c
+	dissectors/packet-mbtcp.c
+	dissectors/packet-mdshdr.c
+	dissectors/packet-media.c
+	dissectors/packet-megaco.c
+	dissectors/packet-memcache.c
+	dissectors/packet-mesh.c
+	dissectors/packet-meta.c
+	dissectors/packet-mgcp.c
+	dissectors/packet-mikey.c
+	dissectors/packet-miop.c
+	dissectors/packet-mip.c
+	dissectors/packet-mip6.c
+	dissectors/packet-ms-mms.c
+	dissectors/packet-mmse.c
+	dissectors/packet-mndp.c
+	dissectors/packet-mongo.c
+	dissectors/packet-mount.c
+	dissectors/packet-mp2t.c
+	dissectors/packet-mp4ves.c
+	dissectors/packet-mpeg1.c
+	dissectors/packet-mpls.c
+	dissectors/packet-mpls-echo.c
+	dissectors/packet-mq.c
+	dissectors/packet-mq-pcf.c
+	dissectors/packet-mrdisc.c
+	dissectors/packet-mrp-mmrp.c
+	dissectors/packet-mrp-msrp.c
+	dissectors/packet-msdp.c
+	dissectors/packet-msnlb.c
+	dissectors/packet-msn-messenger.c
+	dissectors/packet-msnip.c
+	dissectors/packet-msproxy.c
+	dissectors/packet-msrp.c
+	dissectors/packet-mstp.c
+	dissectors/packet-mtp2.c
+	dissectors/packet-mtp3.c
+	dissectors/packet-mtp3mg.c
+	dissectors/packet-multipart.c
+	dissectors/packet-mux27010.c
+	dissectors/packet-mysql.c
+	dissectors/packet-nas_eps.c
+	dissectors/packet-nasdaq-itch.c
+	dissectors/packet-nat-pmp.c
+	dissectors/packet-nb_rtpmux.c
+	dissectors/packet-nbd.c
+	dissectors/packet-nbipx.c
+	dissectors/packet-nbns.c
+	dissectors/packet-ncp.c
+	packet-ncp2222.c
+	dissectors/packet-ncp-nmas.c
+	dissectors/packet-ncp-sss.c
+	dissectors/packet-ncs.c
+	dissectors/packet-ndmp.c
+	dissectors/packet-ndp.c
+	dissectors/packet-ndps.c
+	dissectors/packet-netbios.c
+	dissectors/packet-netdump.c
+	dissectors/packet-netflow.c
+	dissectors/packet-netmon-802_11.c
+	dissectors/packet-netperfmeter.c
+	dissectors/packet-netsync.c
+	dissectors/packet-nettl.c
+	dissectors/packet-newmail.c
+	dissectors/packet-nfs.c
+	dissectors/packet-nfsacl.c
+	dissectors/packet-nfsauth.c
+	dissectors/packet-nhrp.c
+	dissectors/packet-nisplus.c
+	dissectors/packet-nlm.c
+	dissectors/packet-nlsp.c
+	dissectors/packet-nntp.c
+	dissectors/packet-nstrace.c
+	dissectors/packet-nsip.c
+	dissectors/packet-nsrp.c
+	dissectors/packet-nt-oui.c
+	dissectors/packet-nt-tpcp.c
+	dissectors/packet-ntlmssp.c
+	dissectors/packet-ntp.c
+	dissectors/packet-null.c
+	dissectors/packet-nwmtp.c
+	dissectors/packet-oicq.c
+	dissectors/packet-olsr.c
+	dissectors/packet-omapi.c
+	dissectors/packet-omron-fins.c
+	dissectors/packet-opensafety.c
+	dissectors/packet-osi-options.c
+	dissectors/packet-osi.c
+	dissectors/packet-ositp.c
+	dissectors/packet-ospf.c
+	dissectors/packet-p_mul.c
+	dissectors/packet-packetbb.c
+	dissectors/packet-packetlogger.c
+	dissectors/packet-pagp.c
+	dissectors/packet-paltalk.c
+	dissectors/packet-pana.c
+	dissectors/packet-pcep.c
+	dissectors/packet-pcli.c
+	dissectors/packet-pcnfsd.c
+	dissectors/packet-pdcp-lte.c
+	dissectors/packet-per.c
+	dissectors/packet-pflog.c
+	dissectors/packet-pgm.c
+	dissectors/packet-pgsql.c
+	dissectors/packet-pim.c
+	dissectors/packet-pingpongprotocol.c
+	dissectors/packet-pktgen.c
+	dissectors/packet-pktc.c
+	dissectors/packet-pnrp.c
+	dissectors/packet-pop.c
+	dissectors/packet-portmap.c
+	dissectors/packet-ppi.c
+	dissectors/packet-ppi-geolocation-common.c
+	dissectors/packet-ppi-geolocation-common.h
+	dissectors/packet-ppi-antenna.c
+	dissectors/packet-ppp.c
+	dissectors/packet-pppoe.c
+	dissectors/packet-pptp.c
+	dissectors/packet-prp.c
+	dissectors/packet-ptp.c
+	dissectors/packet-pvfs2.c
+	dissectors/packet-pw-common.c
+	dissectors/packet-pw-eth.c
+	dissectors/packet-pw-hdlc.c
+	dissectors/packet-pw-fr.c
+	dissectors/packet-pw-atm.c
+	dissectors/packet-pw-cesopsn.c
+	dissectors/packet-pw-satop.c
+	dissectors/packet-q2931.c
+	dissectors/packet-q708.c
+	dissectors/packet-q931.c
+	dissectors/packet-q933.c
+	dissectors/packet-qllc.c
+	dissectors/packet-quake.c
+	dissectors/packet-quake2.c
+	dissectors/packet-quake3.c
+	dissectors/packet-quakeworld.c
+	dissectors/packet-radius.c
+	dissectors/packet-radius_packetcable.c
+	dissectors/packet-radiotap.c
+	dissectors/packet-radiotap-iter.c
+	dissectors/packet-raw.c
+	dissectors/packet-rdm.c
+	dissectors/packet-rdt.c
+	dissectors/packet-redback.c
+	dissectors/packet-redbackli.c
+	dissectors/packet-reload.c
+	dissectors/packet-reload-framing.c
+	dissectors/packet-retix-bpdu.c
+	dissectors/packet-rfc2190.c
+	dissectors/packet-rgmp.c
+	dissectors/packet-rip.c
+	dissectors/packet-ripng.c
+	dissectors/packet-rlc.c
+	dissectors/packet-rlc-lte.c
+	dissectors/packet-rlm.c
+	dissectors/packet-rlogin.c
+	dissectors/packet-rmcp.c
+	dissectors/packet-rmi.c
+	dissectors/packet-rmp.c
+	dissectors/packet-rmt-alc.c
+	dissectors/packet-rmt-common.c
+	dissectors/packet-rmt-fec.c
+	dissectors/packet-rmt-lct.c
+	dissectors/packet-rmt-norm.c
+	dissectors/packet-rohc.c
+	dissectors/packet-roofnet.c
+	dissectors/packet-rpc.c
+	dissectors/packet-rpcap.c
+	dissectors/packet-rpl.c
+	dissectors/packet-rquota.c
+	dissectors/packet-rsh.c
+	dissectors/packet-rsip.c
+	dissectors/packet-rsl.c
+	dissectors/packet-rstat.c
+	dissectors/packet-rsvp.c
+	dissectors/packet-rsync.c
+	dissectors/packet-rtcp.c
+	dissectors/packet-rtmpt.c
+	dissectors/packet-rtnet.c
+	dissectors/packet-rtp-events.c
+	dissectors/packet-rtp.c
+	dissectors/packet-rtps.c
+	dissectors/packet-rtps2.c
+	dissectors/packet-rtsp.c
+	dissectors/packet-rudp.c
+	dissectors/packet-rwall.c
+	dissectors/packet-rx.c
+	dissectors/packet-s5066.c
+	dissectors/packet-sadmind.c
+	dissectors/packet-sametime.c
+	dissectors/packet-sap.c
+	dissectors/packet-sasp.c
+	dissectors/packet-sbus.c
+	dissectors/packet-sccp.c
+	dissectors/packet-sccpmg.c
+	dissectors/packet-scop.c
+	dissectors/packet-scsi.c
+	dissectors/packet-scsi-mmc.c
+	dissectors/packet-scsi-osd.c
+	dissectors/packet-scsi-sbc.c
+	dissectors/packet-scsi-smc.c
+	dissectors/packet-scsi-ssc.c
+	dissectors/packet-sctp.c
+	dissectors/packet-sdlc.c
+	dissectors/packet-sdp.c
+	dissectors/packet-sebek.c
+	dissectors/packet-ses.c
+	dissectors/packet-sflow.c
+	dissectors/packet-sgsap.c
+	dissectors/packet-simulcrypt.c
+	dissectors/packet-sip.c
+	dissectors/packet-sigcomp.c
+	dissectors/packet-sipfrag.c
+	dissectors/packet-sita.c
+	dissectors/packet-skinny.c
+	dissectors/packet-slimp3.c
+	dissectors/packet-sll.c
+	dissectors/packet-slowprotocols.c
+	dissectors/packet-slsk.c
+	dissectors/packet-smb-browse.c
+	dissectors/packet-smb-common.c
+	dissectors/packet-smb-logon.c
+	dissectors/packet-smb-mailslot.c
+	dissectors/packet-smb-pipe.c
+	dissectors/packet-smb-sidsnooping.c
+	dissectors/packet-smb.c
+	dissectors/packet-smb2.c
+	dissectors/packet-smpp.c
+	dissectors/packet-smtp.c
+	dissectors/packet-sna.c
+	dissectors/packet-snaeth.c
+	dissectors/packet-sndcp.c
+	dissectors/packet-sndcp-xid.c
+	dissectors/packet-socketcan.c
+	dissectors/packet-socks.c
+	dissectors/packet-nasdaq-soup.c
+	dissectors/packet-spp.c
+	dissectors/packet-spray.c
+	dissectors/packet-srp.c
+	dissectors/packet-sscf-nni.c
+	dissectors/packet-srvloc.c
+	dissectors/packet-sscop.c
+	dissectors/packet-scriptingservice.c
+	dissectors/packet-ssh.c
+	dissectors/packet-ssl.c
+	dissectors/packet-ssl-utils.c
+	dissectors/packet-starteam.c
+	dissectors/packet-stat-notify.c
+	dissectors/packet-stat.c
+	dissectors/packet-stun.c
+	dissectors/packet-sua.c
+	dissectors/packet-symantec.c
+	dissectors/packet-synergy.c
+	dissectors/packet-synphasor.c
+	dissectors/packet-syslog.c
+	dissectors/packet-t30.c
+	dissectors/packet-t38.c
+	dissectors/packet-tacacs.c
+	dissectors/packet-tali.c
+	dissectors/packet-tapa.c
+	dissectors/packet-tcp.c
+	dissectors/packet-tdmoe.c
+	dissectors/packet-tds.c
+	dissectors/packet-teamspeak2.c
+	dissectors/packet-teimanagement.c
+	dissectors/packet-teklink.c
+	dissectors/packet-telnet.c
+	dissectors/packet-teredo.c
+	dissectors/packet-text-media.c
+	dissectors/packet-telkonet.c
+	dissectors/packet-tftp.c
+	dissectors/packet-time.c
+	dissectors/packet-tipc.c
+	dissectors/packet-tivoconnect.c
+	dissectors/packet-tnef.c
+	dissectors/packet-tns.c
+	dissectors/packet-tn3270.c
+	dissectors/packet-tn5250.c
+	dissectors/packet-tpkt.c
+	dissectors/packet-tpncp.c
+	dissectors/packet-tr.c
+	dissectors/packet-trill.c
+	dissectors/packet-trmac.c
+	dissectors/packet-tsp.c
+	dissectors/packet-tte.c
+	dissectors/packet-tte-pcf.c
+	dissectors/packet-turbocell.c
+	dissectors/packet-turnchannel.c
+	dissectors/packet-tuxedo.c
+	dissectors/packet-tzsp.c
+	dissectors/packet-ucp.c
+	dissectors/packet-udld.c
+	dissectors/packet-udp.c
+	dissectors/packet-uma.c
+	dissectors/packet-umts_fp.c
+	dissectors/packet-umts_mac.c
+	dissectors/packet-usb.c
+	dissectors/packet-usb-at.c
+	dissectors/packet-usb-hid.c
+	dissectors/packet-usb-hub.c
+	dissectors/packet-usb-masstorage.c
+	dissectors/packet-user_encap.c
+	dissectors/packet-uts.c
+	dissectors/packet-v120.c
+	dissectors/packet-v5ua.c
+	dissectors/packet-v52.c
+	dissectors/packet-vcdu.c
+	dissectors/packet-vicp.c
+	dissectors/packet-vines.c
+	dissectors/packet-vj.c
+	dissectors/packet-vlan.c
+	dissectors/packet-vmlab.c
+	dissectors/packet-vnc.c
+	dissectors/packet-vrrp.c
+	dissectors/packet-vtp.c
+	dissectors/packet-vxi11.c
+	dissectors/packet-wai.c
+	dissectors/packet-wap.c
+	dissectors/packet-wassp.c
+	dissectors/packet-wbxml.c
+	dissectors/packet-wccp.c
+	dissectors/packet-wcp.c
+	dissectors/packet-wfleet-hdlc.c
+	dissectors/packet-who.c
+	dissectors/packet-wifi-p2p.c
+	dissectors/packet-windows-common.c
+	dissectors/packet-winsrepl.c
+	dissectors/packet-wlccp.c
+	dissectors/packet-wol.c
+	dissectors/packet-wow.c
+	dissectors/packet-wps.c
+	dissectors/packet-wsmp.c
+	dissectors/packet-wsp.c
+	dissectors/packet-wtls.c
+	dissectors/packet-wtp.c
+	dissectors/packet-x11.c
+	dissectors/packet-x25.c
+	dissectors/packet-x29.c
+	dissectors/packet-xcsl.c
+	dissectors/packet-xdmcp.c
+	dissectors/packet-xml.c
+	dissectors/packet-xot.c
+	dissectors/packet-xtp.c
+	dissectors/packet-xyplex.c
+	dissectors/packet-yhoo.c
+	dissectors/packet-ymsg.c
+	dissectors/packet-ypbind.c
+	dissectors/packet-yppasswd.c
+	dissectors/packet-ypserv.c
+	dissectors/packet-ypxfr.c
+	dissectors/packet-zbee-aps.c
+	dissectors/packet-zbee-security.c
+	dissectors/packet-zbee-nwk.c
+	dissectors/packet-zbee-zcl.c
+	dissectors/packet-zbee-zdp.c
+	dissectors/packet-zbee-zdp-binding.c
+	dissectors/packet-zbee-zdp-discovery.c
+	dissectors/packet-zbee-zdp-management.c
+	dissectors/packet-zebra.c
+	dissectors/packet-zep.c
+	dissectors/packet-ziop.c
+	dissectors/packet-zrtp.c
+)
+
+# IPMI sub-parsers for each network function code
+set(IPMI_SUBPARSERS
+	dissectors/packet-ipmi-app.c
+	dissectors/packet-ipmi-bridge.c
+	dissectors/packet-ipmi-chassis.c
+	dissectors/packet-ipmi-picmg.c
+	dissectors/packet-ipmi-se.c
+	dissectors/packet-ipmi-storage.c
+	dissectors/packet-ipmi-transport.c
+	dissectors/packet-ipmi-pps.c
+	dissectors/packet-ipmi-update.c
+)
+
+set(DISSECTOR_SUPPORT_SRC
+	${IPMI_SUBPARSERS}
+	dissectors/packet-dcerpc-nt.c
+	register.c
+)
+
+set(LIBWIRESHARK_ASM_FILES
+	asm_utils.c
+# todo
+#	!IFDEF NASM
+#	asm_utils_win32_x86.obj: asm_utils_win32_x86.asm
+#	        $(NASM) -f $(WIRESHARK_TARGET_PLATFORM) -o $@ $?
+#	!ENDIF
+#	...
+#	!IF defined(NASM) && "$(WIRESHARK_TARGET_PLATFORM)" == "win32"
+#	        asm_utils_win32_x86.obj
+#	!ELSE
+#	        asm_utils.obj
+#	!ENDIF
+)
+
+set(DISSECTOR_FILES
+	${DISSECTOR_SRC}
+	${PIDL_DISSECTOR_SRC}
+	${PIDL_DISSECTOR_AUTOGEN_SRC}
+	${DIRTY_PIDL_DISSECTOR_SRC}
+	${ASN1_DISSECTOR_SRC}
+	${DIRTY_ASN1_DISSECTOR_SRC}
+)
+
+register_dissector_files(register.c
+	dissectors
+	${DISSECTOR_FILES}
+)
+
+set(FTYPE_FILES
+	ftypes/ftypes.c
+	ftypes/ftype-bytes.c
+	ftypes/ftype-double.c
+	ftypes/ftype-integer.c
+	ftypes/ftype-ipv4.c
+	ftypes/ftype-guid.c
+	ftypes/ftype-none.c
+	ftypes/ftype-pcre.c
+	ftypes/ftype-string.c
+	ftypes/ftype-time.c
+	ftypes/ftype-tvbuff.c
+)
+
+ADD_CUSTOM_COMMAND(
+    OUTPUT
+      sminmpec.c
+    COMMAND ${PERL_EXECUTABLE}
+      ${CMAKE_SOURCE_DIR}/tools/make-sminmpec.pl
+      ${CMAKE_CURRENT_SOURCE_DIR}/enterprise-numbers
+      sminmpec.c
+    DEPENDS
+      enterprise-numbers
+      ${CMAKE_SOURCE_DIR}/tools/make-sminmpec.pl
+)
+
+set(LIBWIRESHARK_FILES
+	addr_and_mask.c
+	addr_resolv.c
+	address_to_str.c
+	adler32.c
+	afn.c
+	asn1.c
+	atalk-utils.c
+	base64.c
+	bitswap.c
+	camel-persistentdata.c
+	charsets.c
+	circuit.c
+	codecs.c
+	column.c
+	column-utils.c
+	conversation.c
+	crc10.c
+	crc16.c
+	crc32.c
+	crc6.c
+	crc8.c
+	crcdrm.c
+	dissector_filters.c
+	emem.c
+	epan.c
+	ex-opt.c
+	except.c
+	expert.c
+	filesystem.c
+	follow.c
+	frame_data.c
+	frequency-utils.c
+	funnel.c
+	gcp.c
+	geoip_db.c
+	golay.c
+	guid-utils.c
+	h225-persistentdata.c
+	in_cksum.c
+	ipproto.c
+	ipv4.c
+	next_tvb.c
+	nstime.c
+	oids.c
+	osi-utils.c
+	packet.c
+	plugins.c
+	prefs.c
+	proto.c
+	range.c
+	reassemble.c
+	reedsolomon.c
+	report_err.c
+	req_resp_hdrs.c
+	sigcomp_state_hdlr.c
+	sigcomp-udvm.c
+	sminmpec.c
+	sna-utils.c
+	stat_cmd_args.c
+	stats_tree.c
+	strutil.c
+	stream.c
+	t35.c
+	tap.c
+	tcap-persistentdata.c
+	timestamp.c
+	tfs.c
+	to_str.c
+	tvbparse.c
+	tvbuff.c
+	uat.c
+	value_string.c
+	xdlc.c
+)
+
+set(LIBWIRESHARK_CLEAN_FILES
+	${LIBWIRESHARK_FILES}
+)
+
+add_lex_files(LIBWIRESHARK_FILES
+	diam_dict.l
+	dtd_parse.l
+	dtd_preparse.l
+	radius_dict.l
+	uat_load.l
+)
+
+add_lemon_files(LIBWIRESHARK_FILES
+	dtd_grammar.lemon
+)
+
+set(epan_LIBS
+	wiretap
+	wsutil
+#	@SSL_LIBS@
+	${PCRE_LIBRARIES}
+	${GLIB2_LIBRARIES}
+	${PCAP_LIBRARIES}
+#	@SOCKET_LIBS@
+#	@NSL_LIBS@
+	${CARES_LIBRARIES}
+	${ADNS_LIBRARIES}
+	${KERBEROS_LIBRARIES}
+#	@FRAMEWORKS@
+	${GEOIP_LIBRARIES}
+	${GCRYPT_LIBRARIES}
+	${GNUTLS_LIBRARIES}
+	${SMI_LIBRARIES}
+	${M_LIBRARIES}
+	${LUA_LIBRARIES}
+	${PYTHON_LIBRARIES}
+)
+
+set(CLEAN_FILES
+	# Needed to trigger build of the include files for x11
+	#x11-declarations.h
+	#x11-register-info.h
+	${LIBWIRESHARK_CLEAN_FILES}
+	${CRC_FILES}
+	${CRYPT_FILES}
+	${DFILTER_CLEAN_FILES}
+	${FTYPE_FILES}
+	# ${DISSECTOR_FILES} contains dirty files
+	${DISSECTOR_SRC}
+	${PIDL_DISSECTOR_SRC}
+	${PIDL_DISSECTOR_AUTOGEN_SRC}
+	${ASN1_DISSECTOR_SRC}
+	# ${DISSECTOR_FILES } end
+	${DISSECTOR_SUPPORT_SRC}
+	${LIBWIRESHARK_ASM_FILES}
+	${WSLUA_FILES}
+	${WSPYTHON_FILES}
+)
+
+if (WERROR)
+    set_source_files_properties(
+	${CLEAN_FILES}
+	PROPERTIES
+	COMPILE_FLAGS -Werror
+    )
+endif()
+
+add_library(epan ${LINK_MODE_LIB}
+	# Needed to trigger build of the include files for x11
+	#x11-declarations.h
+	#x11-register-info.h
+	${LIBWIRESHARK_FILES}
+	${CRC_FILES}
+	${CRYPT_FILES}
+	${DFILTER_FILES}
+	${FTYPE_FILES}
+	${WSLUA_FILES}
+	${WSPYTHON_FILES}
+	${DISSECTOR_FILES}
+	${DISSECTOR_SUPPORT_SRC}
+	${LIBWIRESHARK_ASM_FILES}
+)
+set_target_properties(epan PROPERTIES LINK_FLAGS "${WS_LINK_FLAGS}")
+
+# By default the name for a library with target name epan will be libepan,
+# but Ethereal is now named Wireshark
+SET_TARGET_PROPERTIES(epan PROPERTIES OUTPUT_NAME "wireshark")
+
+target_link_libraries(epan ${epan_LIBS})
+
+add_dependencies(epan lemon)
+
+if(NOT ${ENABLE_STATIC})
+	install(TARGETS epan
+		LIBRARY DESTINATION lib
+		RUNTIME DESTINATION lib
+		ARCHIVE DESTINATION lib
+	)
+endif()
+
